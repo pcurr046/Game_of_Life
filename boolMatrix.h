@@ -15,16 +15,16 @@ class boolMatrix{
         void setElement(int row, int column, bool aliveOrDead);
         //set the contents of a single array element 
 
-        int rowCount(int row);
+        int rowCount(int row) const;
         //returns the number of true values that exist in "row" given row. 
 
-        int colCount(int col);
+        int colCount(int col) const;
         //returns the number of true values that exist in "col" given column. 
 
-        int totalCount();
+        int totalCount() const;
         //returns the number of true values that exist in the entire array.
         
-        int neighborCount(int row, int column);
+        int neighborCount(int row, int column) const;
         //this function returns the number of neighbors that have the value "true".
 
         void printMatrix() const;

@@ -25,7 +25,10 @@ boolMatrix::boolMatrix(){
  * assert() is used to validate row and column and print exit message on console            *
  ********************************************************************************************/
 bool boolMatrix::getElement(int row, int column) const{
-    assert(row >= 0 && row < boolMatrix::NUM_ROWS && column >= 0 || column < boolMatrix::NUM_COLS);
+    assert(row >= 0);
+    assert(row < boolMatrix::NUM_ROWS);
+    assert(column >= 0);
+    assert(column < boolMatrix::NUM_COLS);
     return matrix[row][column];
 }
 
@@ -35,14 +38,14 @@ bool boolMatrix::getElement(int row, int column) const{
  * which it should be set.                                                                  *
  ********************************************************************************************/
 void boolMatrix::setElement(int row, int column, bool aliveOrDead){
-    assert(row >= 0 || row > boolMatrix::NUM_ROWS ||  column >= 0 || column < boolMatrix::NUM_COLS);
+    assert(row >= 0 && row < boolMatrix::NUM_ROWS && column >= 0 && column < boolMatrix::NUM_COLS);
     matrix[row][column] = aliveOrDead;
 }
 /********************************************************************************************
  * This function counts and returns the number of true values that exist in a given row.    *
  ********************************************************************************************/
-int boolMatrix::rowCount(int row){
-    assert(row >= 0 || row < boolMatrix::NUM_ROWS);
+int boolMatrix::rowCount(int row) const{
+    assert(row >= 0 && row < boolMatrix::NUM_ROWS);
     int count = 0;
     for(int i = 0; i < boolMatrix::NUM_COLS; i++){
         if(matrix[row][i]){
@@ -55,8 +58,8 @@ int boolMatrix::rowCount(int row){
 /********************************************************************************************
  * This function counts and returns the number of true values that exist in a given column. *
  ********************************************************************************************/
-int boolMatrix::colCount(int col){
-    assert("Sorry, the program tried to access an element that doesn't exist. Exiting now."&&(col < 0 || col >= boolMatrix::NUM_COLS));
+int boolMatrix::colCount(int col) const{
+    assert(col >= 0 && col < boolMatrix::NUM_COLS);
     int count = 0;
     for(int i = 0; i < boolMatrix::NUM_ROWS; i++){
         if(matrix[i][col]){
@@ -69,7 +72,7 @@ int boolMatrix::colCount(int col){
 /********************************************************************************************
  * This function counts and return the number of true values that exist in the entire array.*
  ********************************************************************************************/
- int boolMatrix::totalCount(){
+ int boolMatrix::totalCount() const{
      int count = 0;
      for(int i = 0; i < boolMatrix::NUM_ROWS; i++){
          count += rowCount(i);
@@ -80,37 +83,36 @@ int boolMatrix::colCount(int col){
 neighborCount:Given two arguments that indicate the row and column of a particular cell in the matrix, this function returns the number of neighbors that have the value "true". Most positions in the grid have 8 neighbors like the center square in a tic-tac-toe game. The four corner positions have only 3 neighbors each. The remaining positions around the edge of the grid have 5 neighbors each. 
 Additional neighborCount() Requirement: In this function you must use your "get()" function to access the matrix, instead of accessing your 2D array data member directly. So, if your data member is named "m", youll say "get(row, col)" instead of "m[row][col]". This will be a safer programming practice, since the get() function will do range checking for you (i.e., it will make sure that row and col are not out-of-bounds of the 2D array).
 */
-int boolMatrix::neighborCount(int row, int column){
+int boolMatrix::neighborCount(int row, int column) const{
     int neighbor = 0;
-    //bool element = getElement(row, column);
     if(row == 0){
         if(column == 0){
             neighbor = getElement(row, column+1) + getElement(row+1, column+1) + getElement(row+1, column);
         }
-        if(column == (boolMatrix::NUM_COLS)-1){
-            neighbor= getElement(row, column-1) + getElement(row+1, column-1) + getElement(row+1, column);
+        else if(column == ((boolMatrix::NUM_COLS)-1)){
+            neighbor = getElement(row, column-1) + getElement(row+1, column-1) + getElement(row+1, column);
         }
         else{
-            neighbor = getElement(row, column-1) + getElement(row+1, column-1) + getElement(row+1, column) + getElement(row, column+1) + getElement(row, column+1);
+            neighbor = getElement(row, column-1) + getElement(row+1, column-1) + getElement(row+1, column) + getElement(row+1, column+1) + getElement(row, column+1);
         }
     }
-    if(row != 0 && row != (boolMatrix::NUM_ROWS)-1 ){
+    if((row != 0) && (row != ((boolMatrix::NUM_ROWS)-1))){
         if(column == 0){
             neighbor = getElement(row, column+1) + getElement(row+1, column) + getElement(row+1, column+1) + getElement(row-1, column) + getElement(row-1, column+1);
         }
-        if(column == (boolMatrix::NUM_ROWS)-1){
+        else if(column == ((boolMatrix::NUM_ROWS)-1)){
             neighbor = getElement(row-1, column) + getElement(row-1, column-1) + getElement(row, column-1) + getElement(row+1, column-1) + getElement(row+1, column);
         }
         else{
-            neighbor = getElement(row-1, column) + getElement(row-1, column+1) + getElement(row, column-1) + getElement(row, column+1) + getElement(row+1, column-1)+ getElement(row+1, column) + getElement(row+1, column+1);
+            neighbor = getElement(row-1, column) + getElement(row-1, column+1) + getElement(row, column-1) + getElement(row, column+1) + getElement(row+1, column-1)+ getElement(row+1, column) + getElement(row+1, column+1) + getElement(row-1, column-1);
         }
     }
-    if(row == (boolMatrix::NUM_ROWS)-1 ){
+    if(row == ((boolMatrix::NUM_ROWS)-1)){
         if(column == 0){
             neighbor = getElement(row-1, column) + getElement(row-1, column+1) + getElement(row, column+1);
         }
-        if(column == (boolMatrix::NUM_COLS)-1){
-            neighbor = getElement(row, column+1) + getElement(row+1, column+1) + getElement(row+1, column);
+        else if(column == ((boolMatrix::NUM_COLS)-1)){
+            neighbor = getElement(row, column-1) + getElement(row-1, column) + getElement(row-1, column-1);
         }
         else{
             neighbor = getElement(row, column-1)  + getElement(row, column+1)+ getElement(row-1, column-1) + getElement(row-1, column) + getElement(row-1, column+1);
