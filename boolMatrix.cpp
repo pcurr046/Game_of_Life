@@ -99,18 +99,18 @@ int boolMatrix::neighborCount(int row, int column) const{
             neighbor = getElement(row, column-1) + getElement(row+1, column-1) + getElement(row+1, column) + getElement(row+1, column+1) + getElement(row, column+1);
         }
     }
-    if((row != 0) && (row != ((boolMatrix::NUM_ROWS)-1))){
+    else if((row != 0) && (row != ((boolMatrix::NUM_ROWS)-1))){
         if(column == 0){
             neighbor = getElement(row, column+1) + getElement(row+1, column) + getElement(row+1, column+1) + getElement(row-1, column) + getElement(row-1, column+1);
         }
-        else if(column == ((boolMatrix::NUM_ROWS)-1)){
+        else if(column == ((boolMatrix::NUM_COLS)-1)){
             neighbor = getElement(row-1, column) + getElement(row-1, column-1) + getElement(row, column-1) + getElement(row+1, column-1) + getElement(row+1, column);
         }
         else{
             neighbor = getElement(row-1, column) + getElement(row-1, column+1) + getElement(row, column-1) + getElement(row, column+1) + getElement(row+1, column-1)+ getElement(row+1, column) + getElement(row+1, column+1) + getElement(row-1, column-1);
         }
     }
-    if(row == ((boolMatrix::NUM_ROWS)-1)){
+    else if(row == ((boolMatrix::NUM_ROWS)-1)){
         if(column == 0){
             neighbor = getElement(row-1, column) + getElement(row-1, column+1) + getElement(row, column+1);
         }
@@ -136,13 +136,13 @@ void boolMatrix::printMatrix() const{
             if((col == -1) && (row == -1)){
                 std::cout << "  ";
             }
-            if( (col == -1) && (row != -1)){
+            else if( (col == -1) && (row != -1)){
                 std::cout << std::setw(2) << row;
             }
-            if( (row == -1) && (col != -1)){
+            else if( (row == -1) && (col != -1)){
                 std::cout << col%10;
             }
-            if((row != -1) && (col != -1)){
+            else if((row != -1) && (col != -1)){
                 if (getElement(row, col)){
                     std::cout << "*";
                 }
