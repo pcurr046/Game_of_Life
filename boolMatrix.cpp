@@ -1,14 +1,12 @@
+//Patricia Curry
+//CS 10B - Sujan Sarkar
+//Project 3
+//file: boolMatrix.cpp
+
 #include <iostream>
 #include <cassert>
 #include <iomanip>
 #include "boolMatrix.h"
-
-
-
-//definition of NUM_ROWS static member variable
-//const int boolMatrix::NUM_ROWS = 20;
-//definition of NUM_COLS static member variable
-//const int boolMatrix::NUM_COLS = 20;
 
 /********************************************************************************************
  * default constructor: initialize all of the array elements to false                       *
@@ -20,6 +18,7 @@ boolMatrix::boolMatrix(){
         }
     }
 }
+
 /********************************************************************************************    
  * This getter function returns the current contents of a single array element.             *
  * assert() is used to validate row and column and print exit message on console            *
@@ -41,6 +40,7 @@ void boolMatrix::setElement(int row, int column, bool aliveOrDead){
     assert(row >= 0 && row < boolMatrix::NUM_ROWS && column >= 0 && column < boolMatrix::NUM_COLS);
     matrix[row][column] = aliveOrDead;
 }
+
 /********************************************************************************************
  * This function counts and returns the number of true values that exist in a given row.    *
  ********************************************************************************************/
@@ -79,10 +79,13 @@ int boolMatrix::colCount(int col) const{
      }
     return count;
  }
-/* 
-neighborCount:Given two arguments that indicate the row and column of a particular cell in the matrix, this function returns the number of neighbors that have the value "true". Most positions in the grid have 8 neighbors like the center square in a tic-tac-toe game. The four corner positions have only 3 neighbors each. The remaining positions around the edge of the grid have 5 neighbors each. 
-Additional neighborCount() Requirement: In this function you must use your "get()" function to access the matrix, instead of accessing your 2D array data member directly. So, if your data member is named "m", youll say "get(row, col)" instead of "m[row][col]". This will be a safer programming practice, since the get() function will do range checking for you (i.e., it will make sure that row and col are not out-of-bounds of the 2D array).
-*/
+
+/******************************************************************************************** 
+ * This function counts how many alive("true") neighbors a select position in the grid has  *
+ * with the help on control structures and returns a integer to reflect the number.         *
+ * Function piggy backs of the getElement function and has special conditions to count      *
+ * number of neighbors based on the position in the grid.                                   *
+ ********************************************************************************************/
 int boolMatrix::neighborCount(int row, int column) const{
     int neighbor = 0;
     if(row == 0){
@@ -121,12 +124,11 @@ int boolMatrix::neighborCount(int row, int column) const{
     return neighbor;
 }
 
-/********************************************************************************************
-* Display the contents of the array, including the row and column indices. For each element *
-* of the *array, a true value must be displayed as an asterisk ("*") and a false value must *
-* be displayed as a space.                                                                  *
-//This member function is the only one that displays output. It should be formatted as demonstrated here. Make sure that the row and column labels still work correctly if the constants (NUM_ROWS and NUM_COLS) are set to something different, say, 30 instead of 20.
-*********************************************************************************************/
+/*********************************************************************************************
+ * Display the contents of the array, including the row and column indices. For each element *
+ * of the *array, a true value must be displayed as an asterisk ("*") and a false value must *
+ * be displayed as a space.                                                                  *
+ *********************************************************************************************/
 void boolMatrix::printMatrix() const{
     std::cout << std::endl;
     for(int row = -1; row < boolMatrix::NUM_ROWS; row++){
@@ -152,5 +154,3 @@ void boolMatrix::printMatrix() const{
         std::cout << std::endl;
     }
 }
-
-

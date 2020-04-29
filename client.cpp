@@ -1,3 +1,8 @@
+//Patricia Curry
+//CS 10B - Sujan Sarkar
+//Project 3
+//file: client.cpp
+
 #include <iostream>
 #include <fstream>
 #include <cctype>
@@ -5,10 +10,15 @@
 using namespace std;
 
 void getFileData(/*in*/ifstream &inFile, /*out*/boolMatrix &laif);
+//function gets data from file and sets the laif object data accordingly
 void getGenerations(/*out*/ int& numGenerations);
+//function collects newGenerations int from user through console
 void determineNextGeneration(/*inout*/ boolMatrix& life);
+//function determins next generation of life
 void determineFateOfSingleCell(/*in*/ const boolMatrix& life,/*out*/ boolMatrix& life2, /*in*/int row,/*in*/ int col);
+//function determines the fate of one single cell found at row-col
 void printResults(/*in*/ const boolMatrix& life);
+//function goes through life's grid and prints it
 
 int main() {
     boolMatrix life;
@@ -16,19 +26,18 @@ int main() {
     ifstream inFile;
     fileName = "lifedata.txt";
     int numGenerations;
-    //open the file
-    inFile.open(fileName, ios::in);
-    if(!inFile.fail()){ //checks if file successfully opened
-        cout << fileName << " was successfully open.";
+    inFile.open(fileName, ios::in); //open the file
+    if(!inFile.fail()){             //checks if file successfully opened
+        cout << fileName << " was successfully open." << endl;
         getFileData(inFile, life);
         getGenerations(numGenerations);
         for (int count = 0; count < numGenerations; count++){
-            cout << "GENERATION " << count << endl;
-            printResults(life);
             determineNextGeneration(life);
         }
         inFile.close();
+        cout << "Here's the grid after " << numGenerations << " generations have passed:" << endl;
         printResults(life);
+        cout << "Above are the final generation game of life statistics." << endl;
     }
     else{
         cout << "File failed to open. Please check your directory data." << endl;
@@ -36,6 +45,10 @@ int main() {
     return 0;
 }
 
+
+/********************************************************************************************
+ * This function prints the grid of an boolMatrix object and other grid statistics          *
+ ********************************************************************************************/
 void printResults(const boolMatrix& laif){
     laif.printMatrix();
     cout << "Total alive in row 10 = " << laif.rowCount(10) << endl;
@@ -47,10 +60,12 @@ void printResults(const boolMatrix& laif){
 }
 
 
-
+/********************************************************************************************
+ * This function reads data from file and sets the called elements of laif boolMatrix object*
+ * according to the file data                                                               *
+ ********************************************************************************************/
 void getFileData(ifstream &inFile, boolMatrix &laif){
     while(inFile){
-
         int row, column;
         bool status = true;
         inFile >> row;
@@ -64,7 +79,9 @@ void getFileData(ifstream &inFile, boolMatrix &laif){
     }
 }
 
-
+/********************************************************************************************
+ * This function get's the number of generations from user though the console               *
+ ********************************************************************************************/
 void getGenerations(/*out*/ int& numGenerations){
     int generations;
     cout << "How many generations should elapse? " << endl;
@@ -78,6 +95,12 @@ void getGenerations(/*out*/ int& numGenerations){
     numGenerations = generations;
 }
 
+/********************************************************************************************
+ * This function determins if what the new grid will like in the next generation, based on  *
+ * decisions made in determineFateOfSingleCell(w,x,y,z). Function stores new generation in  *
+ * life2 variable and copies life2 into life when the generation is complete. Since life is *
+ * passed by reference, the information will be updated throughout the program.             *
+ ********************************************************************************************/
 void determineNextGeneration(/*inout*/ boolMatrix& life){
     boolMatrix life2;
     for(int row = 0; row < boolMatrix::NUM_ROWS; row++){
@@ -93,7 +116,13 @@ void determineNextGeneration(/*inout*/ boolMatrix& life){
     }
 }
 
-
+/********************************************************************************************
+ * This function decides the fate of a single cell by taking in the position of the cell in *
+ * the grid and analizing how many alive neighbors it has and it's own status(live or dead) *
+ * Dead cells that have exactly 3 alive neighbors in the last generation, will come to life *
+ * in this generation. Alive cells that have two or three live neighbors will stay alive    *
+ * Everybody else will die or stay dead.                                                    *
+ ********************************************************************************************/
 void determineFateOfSingleCell(/*in*/ const boolMatrix& life,/*out*/ boolMatrix& life2, /*in*/int row,/*in*/ int col){
      bool alive = true, dead = false;
     if(life.getElement(row, col)){
